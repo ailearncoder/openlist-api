@@ -2,7 +2,6 @@
 
 提供用户认证、token获取、两步验证等功能。
 """
-import hashlib
 from typing import Optional
 from .client import BaseClient
 from .models import LoginResponse, Generate2FAResponse, BaseResponse, UserInfoResponse
@@ -68,7 +67,7 @@ class AuthAPI:
     def login_hash(
         self,
         username: str,
-        password: str,
+        hashed_password: str,
         otp_code: Optional[str] = None
     ) -> LoginResponse:
         """使用hash密码获取用户登录token。
@@ -78,7 +77,7 @@ class AuthAPI:
         
         Args:
             username: 用户名
-            password: 密码（明文，将自动hash）
+            hashed_password: 密码的sha256哈希值
             otp_code: 二步验证码（可选）
             
         Returns:
@@ -98,9 +97,6 @@ class AuthAPI:
         Note:
             密码处理方式: sha256(password + "-https://github.com/alist-org/alist")
         """
-        # 添加后缀并计算SHA256
-        password_with_suffix = password + "-https://github.com/alist-org/alist"
-        hashed_password = hashlib.sha256(password_with_suffix.encode()).hexdigest()
         
         payload = {
             "username": username,
@@ -111,6 +107,7 @@ class AuthAPI:
             payload["otp_code"] = otp_code
         
         response_data = self.client.post("/api/auth/login/hash", json=payload)
+        print(response_data)
         return LoginResponse(**response_data)
     
     def generate_2fa(self) -> Generate2FAResponse:
