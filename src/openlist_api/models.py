@@ -332,9 +332,9 @@ class UploadResponse(BaseResponse):
     Attributes:
         code: 状态码
         message: 响应消息
-        data: 任务信息
+        data: 任务信息（当as_task=False时为None）
     """
-    data: UploadTaskData = Field(..., description="任务信息")
+    data: Optional[UploadTaskData] = Field(None, description="任务信息")
 
 
 # ==================== Public Models ====================
