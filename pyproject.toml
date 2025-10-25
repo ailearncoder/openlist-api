@@ -1,7 +1,7 @@
 [project]
 name = "openlist-api"
 version = "0.1.0"
-description = "Add your description here"
+description = "A feature-complete Python client library for interacting with the OpenList (AList) API."
 readme = "README.md"
 authors = [
     { name = "ailearncoder", email = "ailearncoder8@gmail.com" }
